@@ -1,8 +1,15 @@
 <?php
 
-namespace MeiliSearch;
+declare(strict_types=1);
 
-class MeiliSearch
+namespace Meilisearch;
+
+class Meilisearch
 {
-    const VERSION = '0.12.0';
+    public const VERSION = '1.10.1';
+
+    public static function qualifiedVersion()
+    {
+        return \sprintf('Meilisearch PHP (v%s)', self::VERSION);
+    }
 }
