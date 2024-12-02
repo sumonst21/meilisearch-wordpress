@@ -52,6 +52,19 @@ class MeiliSearch {
 
     public function meilisearch_create_admin_page_index_content() {
 
+        // check if settings are set
+        $meilisearch_options = get_option( 'meilisearch_option_name' );
+        if (!isset($meilisearch_options['meilisearch_url_0']) || !isset($meilisearch_options['meilisearch_private_key_1'])){
+            ?>
+            <div class="wrap">
+                <h2>MeiliSearch</h2>
+                <p>Set up MeiliSearch for your Wordpress</p>
+                <p>Please configure the plugin in the Meilisearch settings page before using it.</p>
+            </div>
+            <?php
+            return;
+        }
+
         if (isset($_GET['indexAll']) && $_GET['indexAll'] == 1) {
             index_all_posts($sync=true);
         }

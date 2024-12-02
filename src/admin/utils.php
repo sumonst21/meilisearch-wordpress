@@ -4,8 +4,14 @@ use MeiliSearch\Client;
 
 function get_meilisearch_index(){
     $meilisearch_options = get_option( 'meilisearch_option_name' );
-    $client = new Client($meilisearch_options['meilisearch_url_0'], $meilisearch_options['meilisearch_private_key_1']);
-    $index = $client->getOrCreateIndex($meilisearch_options['meilisearch_index_name']);
+    $meilisearch_url = $meilisearch_options['meilisearch_url_0'];
+    $meilisearch_private_key = $meilisearch_options['meilisearch_private_key_1'];
+    $meilisearch_index_name = $meilisearch_options['meilisearch_index_name'];
+    if (!isset($meilisearch_url) || !isset($meilisearch_private_key)){
+        return;
+    }
+    $client = new Client($meilisearch_url, $meilisearch_private_key);
+    $index = $client->getIndex($meilisearch_index_name);
     return $index;
 }
 
@@ -74,7 +80,7 @@ function index_all_posts($sync = false){
     }
     $update = $index->addDocuments($documents);
     if ($sync) {
-        $index->waitForPendingUpdate($update['updateId']);
+        $index->waitForTask($update['updateId']);
     }
 }
 
